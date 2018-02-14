@@ -2,6 +2,9 @@ function AutoService() {
 
     var cars = [];
     var conditions = ['new', 'like-new', 'fair', 'rust-bucket', 'u-got-a-tow-truck?'];
+    var manufacturers = [];
+
+
 
     function Car(make, year, model, price, condition, img) {
         this.make = make,
@@ -11,6 +14,19 @@ function AutoService() {
         this.condition = conditions[condition],
         this.img = img
     }
+
+
+    // what are your callback functions here? --> drawAutoForm()
+    // this.getMake = function getMake(query, cb) {
+    //     $.get('https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/' + query).then(cb);
+    //     console.log
+    // }
+    
+    // this.getModel = function getModel(query, cb) {
+    //     $.get(''+query).then(cb)
+    // }
+
+
 
     this.getCars = function getCars() {
         return JSON.parse(JSON.stringify(cars));

@@ -41,6 +41,10 @@ function AutoController() {
         document.getElementById('board').innerHTML = template;
     }
 
+    // this.getMake = function getMake(event){
+    //     var make = event.target.value;
+    //     autoService.getMake(make,drawAutoForm)
+    // }
     
     this.addCar = function addCar(event) {
         event.preventDefault();
