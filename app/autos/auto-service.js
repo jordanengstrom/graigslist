@@ -1,46 +1,44 @@
 function AutoService() {
+    // this is where cars array will go
+    var url = 'https://inspire-server.herokuapp.com/api/engstrom-cars';
+    var localCars = [];
 
-    var cars = [];
-    var conditions = ['new', 'like-new', 'fair', 'rust-bucket', 'u-got-a-tow-truck?'];
-    var manufacturers = [];
-
-
-
-    function Car(make, year, model, price, condition, img) {
-        this.make = make,
-        this.year = year,
-        this.model = model,
-        this.price = price,
-        this.condition = conditions[condition],
-        this.img = img
+    function Car(formData) {
+        this.year = formData.year.year.value,
+        this.make = formData.make.make.value,
+        this.model = formData.model.model.value,
+        this.price = formData.price.value,
+        this.miles = formData.miles.value,
+        this.img = formData.img.value
     }
-
-
-    // what are your callback functions here? --> drawAutoForm()
-    // this.getMake = function getMake(query, cb) {
-    //     $.get('https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/' + query).then(cb);
-    //     console.log
-    // }
     
-    // this.getModel = function getModel(query, cb) {
-    //     $.get(''+query).then(cb)
-    // }
-
-
-
-    this.getCars = function getCars() {
-        return JSON.parse(JSON.stringify(cars));
+    this.getCars = function getCars(cb) {
+        $.get(url).then(function (cars){
+            localCars = cars;
+            cb(localCars);
+        })
     }
 
-    this.addCar = function addCar(carObj) {
-        var newCar = new Car(carObj.make, carObj.year, carObj.model, carObj.price, carObj.condition, carObj.img);
-        cars.push(newCar);
+    this.makeCar = function makeCar(formData, cb) {
+        var car = new Car(formData);
+        $.post(url, car).then(res => {
+            localCars.unshift(res.data);
+            cb(localCars);
+        })
     }
 
+    this.removeCar = function removeCar(id, cb){
+        $.ajax({
+            url: url + id,
+            method: 'DELETE'
+        })
+    }
 
-    console.log("Service is up and running")
-    cars.push(new Car('Chevy', 1998, 'Blazer', 7800, 2, 'https://media.ed.edmunds-media.com/chevrolet/blazer/1998/oem/1998_chevrolet_blazer_4dr-suv_lt_fq_oem_1_500.jpg'))
-    cars.push(new Car('Pontiac', 2001, 'Firebird', 7200, 1, "http://images.gtcarlot.com/pictures/50004306.jpg"))
-    cars.push(new Car('Ford', 1990, 'Probe', 200, 4, "https://farm8.static.flickr.com/7555/15730606300_3bf485543c_b.jpg"))
-    cars.push(new Car('Toyota', 1992, 'MR2', 18000, 0, "https://www.lamborghini.com/sites/it-en/files/DAM/it/models_gateway/blocks/special.png"))
+    // SAMPLE DATA
+    // cars.push(new Car('Chevy', 1998, 'Blazer', 7800, 'https://media.ed.edmunds-media.com/chevrolet/blazer/1998/oem/1998_chevrolet_blazer_4dr-suv_lt_fq_oem_1_500.jpg', 56000))
+    // cars.push(new Car('Pontiac', 2001, 'Firebird', 7200, "http://images.gtcarlot.com/pictures/50004306.jpg", 900000))
+    // cars.push(new Car('Ford', 1990, 'Probe', 200, "https://farm8.static.flickr.com/7555/15730606300_3bf485543c_b.jpg", 75000))
+    // cars.push(new Car('Toyota', 1992, 'MR2', 18000, "https://www.lamborghini.com/sites/it-en/files/DAM/it/models_gateway/blocks/special.png", 45000))
+
+
 }

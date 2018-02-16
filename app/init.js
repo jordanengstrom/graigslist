@@ -5,5 +5,3 @@ var app = {
         jobsCtrl: new JobController()
     }
 }
-
-console.log("Init is up and running")

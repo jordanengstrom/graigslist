@@ -20,7 +20,6 @@ function JobService() {
         jobs.push(job);
     }
 
-    console.log("Service is up and running");
     jobs.push(new Job('Barista', 'Dutch Bros', 'Boise, ID', 'make coffee and be nice', '12/hr', 'BroInCheif@dutch.com'));
     jobs.push(new Job('Bartender', '10th St Station', 'Boise, ID', 'make drinks, put up with drunk people', '12/hr', 'YouHaveToKnowSome1@gmail.com'));
     jobs.push(new Job('Manager', 'Red Robin', 'Meridian, ID', 'be a boss', '15/hr', 'apply online'));

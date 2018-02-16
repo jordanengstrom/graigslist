@@ -24,8 +24,6 @@ function PropertyService() {
         properties.push(newProp);
     }
 
-
-    console.log("Prop service is up and running")
     properties.push(new Property(3, 2, 2800, 1800, 'https://s-ec.bstatic.com/images/hotel/max1024x768/360/36022959.jpg', 'rent', true))
     properties.push(new Property(1, 1, 800, 700, 'https://07f138315bb5e97f9e43-31068357019044cca7c8e84d92de0d99.ssl.cf3.rackcdn.com/1024x768/56587_11491_001.jpg', 'rent', false))
     properties.push(new Property(2, 1, 1000, 850, 'http://www.idesignarch.com/wp-content/uploads/Apartment-Green-Walls_1.jpg', 'rent', true));

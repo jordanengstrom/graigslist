@@ -1,66 +1,58 @@
 function AutoController() {
 
     var autoService = new AutoService();
+    var resultsElem = document.getElementById('board');
 
+    // DRAWS FORM AND RESULTS 
     this.drawAutoForm = function drawAutoForm() {
-        var formElem = document.getElementById('forms').innerHTML= `
-        <form onsubmit="app.controllers.autosCtrl.addCar(event)" id="car-form">
-            <input type="text" name='make' placeholder='Make'>
-            <input type="text" name='model' placeholder='Model'>
-            <input type="number" name='year' placeholder='Year'>
-            <input type="number" name='price' placeholder='Price'>
-            <input type="url" name='img' placeholder='image link'>
-            <div class="form-group">
-                <label for="condition">Condition</label>
-                <select class="form-control" id="condition">
-                    <option value="0">New</option>
-                    <option value="1">Like New</option>
-                    <option value="2">Fair</option>
-                    <option value="3">Rust Bucket</option>
-                    <option value="4">You got a tow truck?</option>
-                </select>
-            </div>
-            <button type="submit">Submit</button>
-        </form>`
+        var formElem = document.getElementById('forms').innerHTML = `
+             <form onsubmit="app.controllers.autosCtrl.makeCar(event)" id="car-form">
+                 <input type="number" name='year' placeholder='Year'>
+                 <input type="text" name='make' placeholder='Make'>
+                 <input type="text" name='model' placeholder='Model'>
+                 <input type="number" name='price' placeholder='Price'>
+                 <input type="number" name='miles' placeholder='Miles'>
+                 <input type="url" name='img' placeholder='image link'>
+                 <button type="submit">Submit</button>
+             </form>`
         draw();
     }
 
-        function draw() {
-        var carArr = autoService.getCars();
+    function draw(cars) {
         var template = '';
-        for (let i = 0; i < carArr.length; i++) {
-            const car = carArr[i];
+        if (cars.length < 1) {
+            resultsElem.innerHTML = '<h4>Sorry, there are no listings at this time. Please try again later.</h4>';
+            return;
+        }
+        cars.forEach(car => {
             template += `
             <div class="col-sm-3">
-                <img src="${car.img}" alt="car">
-                <p>Make: ${car.make}</p>
-                <p>Model: ${car.model}</p>
-                <p>Price: $${car.price}</p>
+            <img src="${car.img}" alt="car">
+            <p>Make: ${car.make}</p>
+            <p>Model: ${car.model}</p>
+            <p>Price: $${car.price}</p>
+            <p>Miles: ${car.miles}</p>
+            <i class="far fa-trash-alt"></i>
             </div>`
-        }
-        document.getElementById('board').innerHTML = template;
+        })
+        resultsElem.innerHTML = template;
     }
 
-    // this.getMake = function getMake(event){
-    //     var make = event.target.value;
-    //     autoService.getMake(make,drawAutoForm)
-    // }
-    
-    this.addCar = function addCar(event) {
+    function getCars() {
+        autoService.getCars(draw);
+    }
+
+    this.makeCar = function makeCar(event) {
         event.preventDefault();
         var form = event.target;
-        var carObj = {
-            make: form.make.value,
-            year: form.year.value,
-            model: form.model.value,
-            price: form.price.value,
-            condition: form.condition.value,
-            img: form.img.value
-        }
-        autoService.addCar(carObj);
-        document.getElementById('car-form').reset();
-        draw();
+        autoService.makeCar(form,draw);
+        form.reset();
     }
 
+    this.removeCar = function removeCar(id) {
+        autoService.removeCar(id, draw);
+    }
+
+    getCars();
 
 }

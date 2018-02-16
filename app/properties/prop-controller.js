@@ -63,6 +63,4 @@ function PropertyController () {
         document.getElementById("prop-form").reset();
         draw();
     }
-
-    console.log("Prop controller is up and running")
 }
