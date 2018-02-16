@@ -15,7 +15,7 @@ function AutoController() {
                  <input type="url" name='img' placeholder='image link'>
                  <button type="submit">Submit</button>
              </form>`
-        draw();
+        // draw();
     }
 
     function draw(cars) {
@@ -32,7 +32,7 @@ function AutoController() {
             <p>Model: ${car.model}</p>
             <p>Price: $${car.price}</p>
             <p>Miles: ${car.miles}</p>
-            <i class="far fa-trash-alt"></i>
+            <i onclick="app.controllers.autosCtrl.removeCar('${car.id}')" class="action far fa-trash-alt"></i>
             </div>`
         })
         resultsElem.innerHTML = template;
@@ -45,7 +45,7 @@ function AutoController() {
     this.makeCar = function makeCar(event) {
         event.preventDefault();
         var form = event.target;
-        autoService.makeCar(form,draw);
+        autoService.makeCar(form, draw);
         form.reset();
     }
 
@@ -54,5 +54,5 @@ function AutoController() {
     }
 
     getCars();
-
+    
 }

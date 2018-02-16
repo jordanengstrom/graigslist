@@ -1,29 +1,31 @@
 function AutoService() {
     // this is where cars array will go
-    var url = 'https://inspire-server.herokuapp.com/api/engstrom-cars';
+    var url = 'https://inspire-server.herokuapp.com/api/engstrom-cars/';
     var localCars = [];
 
     function Car(formData) {
-        this.year = formData.year.year.value,
-        this.make = formData.make.make.value,
-        this.model = formData.model.model.value,
+        this.year = formData.year.value,
+        this.make = formData.make.value,
+        this.model = formData.model.value,
         this.price = formData.price.value,
         this.miles = formData.miles.value,
         this.img = formData.img.value
     }
     
     this.getCars = function getCars(cb) {
-        $.get(url).then(function (cars){
-            localCars = cars;
-            cb(localCars);
+        $.get(url)
+            .then(function (cars){
+                localCars = cars;
+                cb(localCars);
         })
     }
 
     this.makeCar = function makeCar(formData, cb) {
         var car = new Car(formData);
-        $.post(url, car).then(res => {
-            localCars.unshift(res.data);
-            cb(localCars);
+        $.post(url, car)
+            .then(res => {
+                localCars.unshift(res);
+                this.getCars(cb);
         })
     }
 
@@ -32,6 +34,9 @@ function AutoService() {
             url: url + id,
             method: 'DELETE'
         })
+            .then(res => {
+                this.getCars(cb);
+            })
     }
 
     // SAMPLE DATA
